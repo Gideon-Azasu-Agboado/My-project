@@ -1,0 +1,60 @@
+let {password} = req.body;
+
+let newStudent = {
+        name: name,
+        email : email
+    };
+
+
+
+student.register(newStudent, password, (err, newstudent) => {
+       
+employee.create(newEmployee)
+
+(err,user) => {
+        if(err){
+             req.flash('error_msg', 'ERROR :' +err);
+        }
+
+<%= currentUser.name %>
+
+employee.register(newEmployee, req.body.password)
+
+<table class="table table-bordered" id="dataTable">
+        <thead>
+          <th>Student ID</th>
+          <th>Name</th>
+        </thead>
+        <tfoot>
+          <th>Student ID</th>
+          <th>Name</th>
+        </tfoot>
+        <tbody>
+    
+          <% students.forEach((student) => { %>
+          <tr>
+            <td><%= student.name %></td>
+            <td><%= student.studentId %></td>
+          </tr>
+          <% }) %>
+      </tbody>
+      </table>
+
+
+      <% if(currentUser){ %>
+
+      <%= currentUser.username %>
+
+      <% } %>
+
+
+      .then(employee => {
+        req.flash('success_msg', 'Employee Data Added To Database Sucessfully.')
+        res.redirect('/');
+    })
+    .catch(err => {
+        req.flash('error_msg', 'ERROR :' + err)
+        res.redirect('/');
+    })
+    passport.authenticate('local');
+    });
