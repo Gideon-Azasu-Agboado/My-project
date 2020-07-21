@@ -98,8 +98,8 @@ app.use('/student/*', (req, res, next) => {
 })
 
 app.use(authRoutes);
-app.use("/teachers", employeeRoutes);
-app.use('teachers', studentRoutes);
+app.use("/teacher", employeeRoutes);
+app.use('/student', studentRoutes);
 // app.use(teacherRoutes);
 
 
