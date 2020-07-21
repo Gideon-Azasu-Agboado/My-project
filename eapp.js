@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
+const logger = require('morgan')
 const async = require("async");
 
 const bodyParser = require('body-parser');
@@ -19,8 +20,14 @@ const studentRoutes = require('./routes/students');
 
 const teacherRoutes = require('./routes/teachers');
 
+const adminRoutes = require('./routes/admin');
+const authRoutes = require('./routes/auth')
+
 const student = require('./models/student');
 const Employee = require('./models/employ');
+
+const User = require('./models/user');
+
 
 dotenv.config({path : './config.env'});
  
@@ -30,6 +37,7 @@ mongoose.connect(process.env.DATABASE_LOCAL, {
     useCreateIndex : true
 });
 
+app.use(logger('dev'))
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -45,13 +53,10 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy({usernameField : 'username'},Employee.authenticate()));
-passport.serializeUser(Employee.serializeUser());
-passport.deserializeUser(Employee.deserializeUser());
 
-passport.use(new LocalStrategy({usernameField : "username"},student.authenticate()));
-passport.serializeUser(student.serializeUser());
-passport.deserializeUser(student.deserializeUser());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(flash());
 
@@ -63,9 +68,25 @@ app.use((req,res,next) => {
     next();
 });
 
-app.use(employeeRoutes);
-app.use(studentRoutes);
-app.use(teacherRoutes);
+
+app.use('/admin/*', (req, res, next) => {
+    if(!req.user) {
+        res.redirect('/login')
+    }
+    if(req.user.role == 1) {
+        next();
+    } 
+})
+
+app.use(authRoutes);
+app.use("/teachers", employeeRoutes);
+app.use('teachers', studentRoutes);
+// app.use(teacherRoutes);
+
+
+app.use('/admin', adminRoutes)
+
+
 
 const port = process.env.PORT
 app.listen(port, ()=>{

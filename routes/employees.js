@@ -17,32 +17,6 @@ function isAuthenticatedUser(req, res, next) {
     res.redirect('/employee/login');
 }
 
-//get routes starts here
-router.get('/employee/login', (req, res) => {
-    res.render('login');
-});
-
-router.get('/employee/administrator', (req, res) => {
-    res.render('administrator');
-});
-
-router.get('/', (req, res) => {
-    Employee.find({})
-        .then(employees => {
-            res.render('database', { employees: employees });
-        })
-        .catch(err => {
-            req.flash('error_msg', 'ERROR :' + err)
-            res.redirect('/');
-        })
-});
-
-
-
-router.get("/employee/Add", (req, res) => {
-    res.render("Add")
-});
-
 router.get('/employee/Search', (req, res) => {
     res.render('search', { employee: "" });
 });
@@ -105,33 +79,35 @@ router.get("/password/change", (req,res) => {
 //get routes ends here
 
 //post routes starts here
-router.post('/employee/login', passport.authenticate('local', {
-    successRedirect: '/teacher',
-    failureRedirect: '/employee/login',
-    failureFlash: 'Invalid Id or password. Try again!!'
-}));
+// router.post('/employee/login', passport.authenticate('local', {
+//     successRedirect: '/teacher',
+//     failureRedirect: '/employee/login',
+//     failureFlash: 'Invalid Id or password. Try again!!'
+// }));    
 
-router.post('/employee/Add', (req, res) => {
+// router.post('/employee/Add', (req, res) => {
     
-    let newEmployee = {
-        username: req.body.username,
-        designation: req.body.designation,
-        salary: req.body.salary,
-        email : req.body.email,
-        class : req.body.class
-    };
+//     let newEmployee = {
+//         username: req.body.username,
+//         designation: req.body.designation,
+//         salary: req.body.salary,
+//         email : req.body.email,
+//         class : req.body.class
+//     };
     
-    Employee.register(newEmployee, req.body.password, (err, employee) => {
-        if(err) {
-            req.flash('error_msg', 'ERROR :' + err)
-            res.redirect('/');
-        }
-        passport.authenticate('local')(req, res, () => {
-            req.flash('success_msg', 'Employee Data Added To Database Sucessfully.')
-            res.redirect('/');
-        });
-    });
-})
+//     Employee.register(newEmployee, req.body.password, (err, employee) => {
+//         console.log(employee)
+//         if(err) {
+//             req.flash('error_msg', 'ERROR :' + err)
+//             console.log(err)
+//             res.redirect('/');
+//         }
+//         passport.authenticate('local')(req, res, () => {
+//             req.flash('success_msg', 'Employee Data Added To Database Sucessfully.')
+//             res.redirect('/');
+//         });
+//     });
+// })
 
 
 
