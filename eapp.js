@@ -78,6 +78,25 @@ app.use('/admin/*', (req, res, next) => {
     } 
 })
 
+app.use('/teacher/*', (req, res, next) => {
+    if(!req.user) {
+        res.redirect('/login')
+    }
+    if(req.user.role == 2) {
+        next();
+    } 
+})
+
+
+app.use('/student/*', (req, res, next) => {
+    if(!req.user) {
+        res.redirect('/login')
+    }
+    if(req.user.role == 3) {
+        next();
+    } 
+})
+
 app.use(authRoutes);
 app.use("/teachers", employeeRoutes);
 app.use('teachers', studentRoutes);
