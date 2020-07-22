@@ -18,7 +18,7 @@ router.get('/employees', (req, res) => {
     })
     .catch(err => {
         req.flash('error_msg', 'ERROR :' + err)
-        res.redirect('/');
+        // res.redirect('/');
     })
 })
 
@@ -29,7 +29,7 @@ router.get('/employees/:id', (req, res) => {
     })
     .catch(err => {
         req.flash('error_msg', 'ERROR :' + err)
-        res.redirect('/employees');
+        res.redirect('/admin/employees');
     });
 })
 
@@ -47,7 +47,7 @@ router.post('/employees', (req, res) => {
         if(err) {
             console.log(err)
             req.flash('error_msg', 'ERROR :' + err)
-            res.redirect('/employees/create');
+            res.redirect('/admin/employees/create');
         }
 
         if(user) {
@@ -64,12 +64,12 @@ router.post('/employees', (req, res) => {
               if(err) {
                 console.log(err)
                 req.flash('error_msg', 'ERROR :' + err)
-                res.redirect('/employees/create');
+                res.redirect('/admin/employees/create');
               }
 
               if(employee) {
                 req.flash('success_msg', 'Employee created')
-                res.redirect('/employees')
+                res.redirect('/admin/employees')
               }
           })
         }
@@ -99,7 +99,7 @@ router.put('/employees/:id', (req, res) => {
             }
 
             req.flash('success_msg', 'Employee updated')
-            res.redirect('/employees');
+            res.redirect('/admin/employees');
           })
         })
         
@@ -107,7 +107,7 @@ router.put('/employees/:id', (req, res) => {
     }).catch(err => {
       console.log(err)
         req.flash('error_msg', 'ERROR :' + err)
-        res.redirect('/employees/'+req.params.id);
+        res.redirect('/admin/employees/'+req.params.id);
     })
 });
 
@@ -122,12 +122,12 @@ router.delete('/employees/:id', (req, res) => {
       deleteEmp(employee.id, employee.user.id)
 
       req.flash('success_msg', 'employee deleted')
-      res.redirect('/employees');
+      res.redirect('/admin/employees');
 
     }).catch(err => {
 
         req.flash('error_msg', 'ERROR :' + err)
-        res.redirect('/employees');
+        res.redirect('/admin/employees');
     })
 
 })
