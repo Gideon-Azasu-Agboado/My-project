@@ -24,15 +24,17 @@ router.post('/login', passport.authenticate('local', {
 
 
 router.get('/admin/dashboard', (req, res) => {
-	res.send('<h1>Admin</h1>')
+	res.render('administrator')
 })
 
 router.get('/teacher/dashboard', (req, res) => {
-
+	res.render('teacher')
 })
 
 router.get('/student/dashboard', (req, res) => {
-
+	res.render('');
 })
+
+
 
 module.exports = router
